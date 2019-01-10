@@ -49,6 +49,6 @@ A new release is automatically published on NPM and as a release on GitHub.
 
 == Contributing
 
-Please use https://semantic-release.gitbook.io/semantic-release/#commit-message-format[Commit message format] when contributing changes via a PR to this repository.
+Please use https://semantic-release.gitbook.io/semantic-release/#commit-message-format[Commit message format] when contributing changes via a PR to this repository. (https://github.com/angular/angular.js/blob/master/DEVELOPERS.md#type[List of commit types to be used])
 
 For all details on contributing to Rico, please refer to the https://github.com/rico-projects/rico[main repo].
