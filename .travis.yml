@@ -6,8 +6,20 @@ notifications:
   email: true
 node_js:
   - '9'
-script:
-  - npm run dist
+services:
+  - docker  
+
+jobs:
+  include:
+    - stage: build
+      script:
+  		- npm run dist
+    - stage: "integration test"
+      script: 
+        - npm run start-int-test-server
+        - npm run int-test
+        - npm run stop-int-test-server
+
 after_success:
   - npm run semantic-release
 branches:
