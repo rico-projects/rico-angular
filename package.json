@@ -3,6 +3,7 @@
   "homepage": "https://github.com/rico-projects/rico-angular#readme",
   "version": "0.0.0-development",
   "license": "Apache-2.0",
+  "readme": "README.adoc",
   "repository": {
     "type": "git",
     "url": "https://github.com/rico-projects/rico-angular.git"

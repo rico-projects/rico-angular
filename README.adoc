@@ -7,7 +7,7 @@ This enables you, in case of a bugfix or extension of rico-js to benefit from it
 
 == Example
 
-Please fint an example in the https://github.com/rico-projects/rico-samples[rico-samples repository].
+Please find an example in the https://github.com/rico-projects/rico-samples[rico-samples repository].
 
 == Handling
 
@@ -34,6 +34,18 @@ The tests will watch the source files and re-run upon changes.
 Finally, you can stop the integration server with
  
  `npm run stop-int-test-server`
+
+=== Packaging 
+
+For packaging, the https://www.npmjs.com/package/ng-packagr[ng-packagr] is used via the angular tool chain configuted via `angular.json` file.
+
+== Releases
+
+Releases are done automatically with https://github.com/semantic-release/semantic-release/[semantic-release] when release-triggering commit is added to `master` branch. 
+
+Commits are evaluated by their commit message (thats why we need to stick with the _commit message format_, see "Contributing"). Depending on `fix`, `feat` or `BREAKING CHANGES`, a _Patch_-, _Feature_- or _Breaking_ release is build and released.
+
+A new release is automatically published on NPM and as a release on GitHub.
 
 == Contributing
 
