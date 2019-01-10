@@ -1,0 +1,18 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "out-tsc/spec",
+    "types": [
+      "jasmine",
+      "node"
+    ]
+  },
+  "files": [
+    "src/test.integration.ts"
+  ],
+  "include": [
+    "src/lib/rico-angular.service.spec.integration.ts",
+    "**/*.spec.integration.ts",
+    "**/*.d.ts"
+  ]
+}

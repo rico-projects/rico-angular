@@ -1,0 +1,42 @@
+= Rico Angular Adapter
+
+== Usage
+
+You need to have both https://github.com/rico-projects/rico-js[rico-js] and this library as dependency to be able to use this adapter.
+This enables you, in case of a bugfix or extension of rico-js to benefit from it without an update in `rico-angular`.
+
+== Example
+
+Please fint an example in the https://github.com/rico-projects/rico-samples[rico-samples repository].
+
+== Handling
+
+=== Run library tests
+
+ `npm run test`
+
+=== Run library integration tests
+
+Prerequsite: Have Docker installed.
+
+Then, have a integration tests server running using Docker:
+
+ `npm run start-int-test-server`
+
+It will start a docker image with a rico runtime with some remoting controllers mapped to port 8085.
+
+Now *execute tests* with:
+
+ `npm run int-test`
+
+The tests will watch the source files and re-run upon changes.
+
+Finally, you can stop the integration server with
+ 
+ `npm run stop-int-test-server`
+
+== Contributing
+
+Please use https://semantic-release.gitbook.io/semantic-release/#commit-message-format[Commit message format] when contributing changes via a PR to this repository.
+
+For all details on contributing to Rico, please refer to the https://github.com/rico-projects/rico[main repo].
