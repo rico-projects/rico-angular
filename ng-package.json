@@ -1,7 +1,13 @@
 {
   "$schema": "node_modules/ng-packagr/ng-package.schema.json",
-  "dest": "dist/rico-angular",
+  "dest": "dist/",
   "lib": {
     "entryFile": "src/public_api.ts"
+  },
+  "externals": {
+    "rico-js": "./node_modules/rico-js/dist/rico.min.js"
+  },
+  "umdModuleIds": {
+    "rico-js": "ricoJs"
   }
 }
