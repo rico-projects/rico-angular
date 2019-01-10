@@ -1,7 +1,7 @@
 {
   "name": "rico-angular",
   "homepage": "https://github.com/rico-projects/rico-angular#readme",
-  "version": "0.0.2",
+  "version": "0.0.0-development",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
@@ -18,7 +18,8 @@
     "dist": "npm run build && npm run pack",
     "start-int-test-server": "docker run -d -p 8085:8080 --rm --name rico-angular-int-server ricoprojects/integration:tomee-1.0.0-CR2",
     "int-test": "npm-install-peers && ng test --main src/test.integration.ts --ts-config tsconfig.spec.integration.json",
-    "stop-int-test-server": "docker stop rico-angular-int-server"
+    "stop-int-test-server": "docker stop rico-angular-int-server",
+    "semantic-release": "semantic-release"
   },
   "peerDependencies": {
     "rico-js": "git+https://github.com/rico-project/rico-js.git#master",
@@ -29,7 +30,7 @@
     "zone.js": "~0.8.26"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~0.11.0",
+    "@angular-devkit/build-angular": "^0.12.1",
     "@angular-devkit/build-ng-packagr": "~0.11.0",
     "@angular/cli": "~7.1.2",
     "@angular/compiler-cli": "~7.1.0",
@@ -50,6 +51,7 @@
     "ng-packagr": "^4.4.5",
     "npm-install-peers": "^1.2.1",
     "protractor": "~5.4.0",
+    "semantic-release": "^15.13.2",
     "ts-node": "~7.0.0",
     "tsickle": ">=0.29.0",
     "tslib": "^1.9.0",
