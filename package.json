@@ -12,10 +12,10 @@
     "Simon Skoczylas <simon.skoczylas@karakun.com>"
   ],
   "scripts": {
-    "build": "ng build rico-angular",
-    "build-watch": "ng build rico-angular --watch",
+    "build": "npm-install-peers && ng build rico-angular",
+    "build-watch": "npm-install-peers && ng build rico-angular --watch",
     "pack": "cd dist/rico-angular && npm pack",
-    "dist": "npm run build && npm run pack",
+    "dist": "npm-install-peers && npm run build && npm run pack",
     "start-int-test-server": "docker run -d -p 8085:8080 --rm --name rico-angular-int-server ricoprojects/integration:tomee-1.0.0-CR2",
     "int-test": "npm-install-peers && ng test --main src/test.integration.ts --ts-config tsconfig.spec.integration.json",
     "stop-int-test-server": "docker stop rico-angular-int-server",
