@@ -69,5 +69,8 @@
     "umdModuleIds": {
       "rico-js": "ricoJs"
     }
+  },
+  "release": {
+     "pkgRoot": "dist/"
   }
 }
