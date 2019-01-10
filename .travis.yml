@@ -3,7 +3,7 @@ cache:
   directories:
     - ~/.npm
 notifications:
-  email: false
+  email: true
 node_js:
   - '9'
 script:
