@@ -13,7 +13,7 @@ jobs:
   include:
     - stage: build
       script:
-  		- npm run dist
+       - npm run dist
     - stage: "integration test"
       script: 
         - npm run start-int-test-server
