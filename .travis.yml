@@ -17,7 +17,7 @@ jobs:
     - stage: "integration test"
       script: 
         - npm run start-int-test-server
-        - npm run int-test
+        - npm run int-test-ci
         - npm run stop-int-test-server
 
 after_success:
