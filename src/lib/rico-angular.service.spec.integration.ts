@@ -12,7 +12,8 @@ import { ControllerProxy } from './controller-proxy';
 describe('RicoService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
-  //TODO: this fails with "Error: The parameter model is mandatory in ControllerProxy(controllerId, model, manager)" - seems to be a mismatch between rico-js and rico core ?
+  // TODO: this fails with "Error: The parameter model is mandatory in ControllerProxy(controllerId, model, manager)" 
+  // - seems to be a mismatch between rico-js and rico core ?
   xdescribe('Controller without model ', () => {
     it('can be created', (done) => {
       const service: RicoService = TestBed.get(RicoService);
@@ -38,7 +39,7 @@ describe('RicoService', () => {
     let service: RicoService;
 
     beforeAll((done) => {
-      let setupPromise = new Promise(function (resolve, reject) {
+      const setupPromise = new Promise(function (resolve, reject) {
         service = TestBed.get(RicoService);
 
         const appRef = TestBed.get(ApplicationRef) as ApplicationRef;
@@ -56,7 +57,7 @@ describe('RicoService', () => {
     });
 
     beforeEach((done) => {
-      let setupPromise = new Promise(function (resolve, reject) {
+      const setupPromise = new Promise(function (resolve, reject) {
 
         service.createController('PropertyController').then((controllerProxy) => {
           testControllerProxy = controllerProxy;
@@ -72,8 +73,8 @@ describe('RicoService', () => {
       return setupPromise;
     });
 
-    afterEach((done) => {
-      return testControllerProxy.destroy().then(() => { done(); });
+    afterEach(() => {
+      testControllerProxy.destroy();
     });
 
     it('can be created', (done) => {

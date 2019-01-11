@@ -6,7 +6,7 @@ import { ControllerProxy } from './controller-proxy';
 
 
 /**
- * 
+ *
  */
 describe('RicoService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
@@ -22,7 +22,7 @@ describe('RicoService', () => {
     let service: RicoService;
 
     beforeAll((done) => {
-      let setupPromise = new Promise(function (resolve, reject) {
+      const setupPromise = new Promise(function (resolve, reject) {
         service = TestBed.get(RicoService);
 
         const appRef = TestBed.get(ApplicationRef) as ApplicationRef;
@@ -39,7 +39,7 @@ describe('RicoService', () => {
     });
 
     beforeEach((done) => {
-      let setupPromise = new Promise(function (resolve, reject) {
+      const setupPromise = new Promise(function (resolve, reject) {
 
         service.createController('BeanController').then((controllerProxy) => {
           beansTestControllerProxy = controllerProxy;

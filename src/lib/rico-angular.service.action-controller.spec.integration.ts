@@ -22,7 +22,7 @@ describe('RicoService', () => {
     let service: RicoService;
 
     beforeAll((done) => {
-      let setupPromise = new Promise(function (resolve, reject) {
+      const setupPromise = new Promise(function (resolve, reject) {
         service = TestBed.get(RicoService);
 
         const appRef = TestBed.get(ApplicationRef) as ApplicationRef;
@@ -40,7 +40,7 @@ describe('RicoService', () => {
     });
 
     beforeEach((done) => {
-      let setupPromise = new Promise(function (resolve, reject) {
+      const setupPromise = new Promise(function (resolve, reject) {
 
         service.createController('ActionController').then((controllerProxy) => {
           testControllerProxy = controllerProxy;
@@ -131,7 +131,8 @@ describe('RicoService', () => {
     });
 
     it('private action with multiple params can be called', (done) => {
-      testControllerProxy.invoke('privateWithSeveralParams', { 'value': 'Hello Rico!', 'value2': 'I want to test you!', 'value3': 356 }).then(() => {
+      const params = { 'value': 'Hello Rico!', 'value2': 'I want to test you!', 'value3': 356 };
+      testControllerProxy.invoke('privateWithSeveralParams', params).then(() => {
 
         expect(testModel.booleanValue).toBe(true);
         expect(testModel.stringValue).toBe('Hello Rico!I want to test you!356');
@@ -144,13 +145,10 @@ describe('RicoService', () => {
 
     describe('numeric types', () => {
       it('public action with int params can be called', (done) => {
+        expect(testModel.integerValue).toBe(undefined);
+
         testControllerProxy.invoke('withPublicIntegerParam', { 'value': 10 }).then(() => {
-
           expect(testModel.integerValue).toBe(10);
-
-          //reset to 0;
-          testModel.integerValue = 0;
-
           done();
         }).catch((error) => {
           done.fail(error);
@@ -158,13 +156,10 @@ describe('RicoService', () => {
       });
 
       it('public action with int params can be called', (done) => {
+        expect(testModel.integerValue).toBe(undefined);
+
         testControllerProxy.invoke('withPrivateIntegerParam', { 'value': 10 }).then(() => {
-
           expect(testModel.integerValue).toBe(10);
-
-          //reset to 0;
-          testModel.integerValue = 0;
-
           done();
         }).catch((error) => {
           done.fail(error);
@@ -172,13 +167,9 @@ describe('RicoService', () => {
       });
 
       it('public action with int params can be called', (done) => {
+        expect(testModel.integerValue).toBe(undefined);
         testControllerProxy.invoke('withSeveralPublicIntegerParams', { 'value': 1, 'value2': 2, 'value3': 3 }).then(() => {
-
           expect(testModel.integerValue).toBe(6);
-
-          //reset to 0;
-          testModel.integerValue = 0;
-
           done();
         }).catch((error) => {
           done.fail(error);
@@ -186,13 +177,9 @@ describe('RicoService', () => {
       });
 
       it('public action with float params can be called', (done) => {
+        expect(testModel.integerValue).toBe(undefined);
         testControllerProxy.invoke('withSeveralPublicDoubleParams', { 'value': 9.3, 'value2': 2.1, 'value3': 3.4 }).then(() => {
-
           expect(testModel.doubleValue).toBe(14.8);
-
-          //reset to 0;
-          testModel.integerValue = 0;
-
           done();
         }).catch((error) => {
           done.fail(error);
@@ -200,10 +187,9 @@ describe('RicoService', () => {
       });
 
       it('public action with int params can be called', (done) => {
+        expect(testModel.integerValue).toBe(undefined);
         testControllerProxy.invoke('withSeveralPrivateIntegerParams', { 'value': 1, 'value2': 2 }).then(() => {
-
           expect(testModel.integerValue).toBe(3);
-
           done();
         }).catch((error) => {
           done.fail(error);
@@ -213,7 +199,7 @@ describe('RicoService', () => {
 
     describe('date types', () => {
       it('public action with date param can be called', (done) => {
-        let date = new Date();
+        const date = new Date();
         testControllerProxy.invoke('withPublicDateParam', { 'value': date }).then(() => {
 
           expect(testModel.dateValue.toISOString()).toBe(date.toISOString());
@@ -225,7 +211,7 @@ describe('RicoService', () => {
       });
 
       it('private action with date param can be called', (done) => {
-        let date = new Date();
+        const date = new Date();
         testControllerProxy.invoke('withPrivateDateParam', { 'value': date }).then(() => {
 
           expect(testModel.dateValue.toISOString()).toBe(date.toISOString());
@@ -237,7 +223,7 @@ describe('RicoService', () => {
       });
 
       it('public action with java calendar param can be called', (done) => {
-        let date = new Date();
+        const date = new Date();
         testControllerProxy.invoke('withPublicCalendarParam', { 'value': date }).then(() => {
 
           expect(testModel.calendarValue.toISOString()).toBe(date.toISOString());
