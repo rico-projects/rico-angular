@@ -61,8 +61,7 @@ export class ControllerProxy {
             })
             .catch((error) => {
               reject(error);
-            }); // createController does not handle a reject case, so there is no point in implement a proper handling here
-            // TODO: implment as it has been fixed in rico-js
+            });
         });
     }
 
