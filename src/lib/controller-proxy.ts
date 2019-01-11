@@ -28,13 +28,6 @@ export class ControllerProxy {
     public get model(): any {
         return this.internalModel;
     }
-    public set model(v: any) {
-        this.internalModel = v;
-    }
-
-    public get vanillaModel(): any {
-        return this.vanillaControllerProxy.model;
-    }
 
     invoke(name: string, params?: any): Promise<any> {
         return this.vanillaControllerProxy.invoke(name, params);
@@ -76,7 +69,7 @@ export class ControllerProxy {
         const onArrayUpdateHandlerResult = beanManager.onArrayUpdate(this.onArrayUpdateHandler);
         // TODO The results should be used to clean up at the end
 
-        ControllerProxy.LOGGER.info('Rico remoting model binding listeners for Angular registered');
+        ControllerProxy.LOGGER.debug('Rico remoting model binding listeners for Angular registered');
     }
 
     private onBeanAddedHandler(bean: any) {
