@@ -34,7 +34,7 @@ describe('RicoService', () => {
             });
           }).catch((error) => {
             done.fail(error);
-          });;
+          });
       });
 
       return setupPromise;

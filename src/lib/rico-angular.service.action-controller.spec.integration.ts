@@ -65,7 +65,6 @@ describe('RicoService', () => {
       expect(testModel.booleanValue).toBe(undefined);
 
       testControllerProxy.invoke('publicAction').then(() => {
-        console.log(testModel);
         expect(testModel.booleanValue).toBe(true);
 
         done();
@@ -96,7 +95,6 @@ describe('RicoService', () => {
           return testControllerProxy.invoke('publicWithBooleanParam', { value: null });
         })
         .then(() => {
-          console.log(testModel);
           expect(testModel.booleanValue).toBe(null);
 
           done();

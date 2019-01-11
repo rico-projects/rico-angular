@@ -63,9 +63,10 @@ describe('RicoService', () => {
           testModel = controllerProxy.model;
           resolve();
           done();
+        }).catch((error) => {
+          done.fail(error);
         });
-      }).catch((error) => {
-        done.fail(error);
+
       });
 
       return setupPromise;
