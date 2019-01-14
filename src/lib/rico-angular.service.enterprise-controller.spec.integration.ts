@@ -8,25 +8,20 @@ import { ControllerProxy } from './controller-proxy';
 describe('RicoService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
-  it('should be created', () => {
-    const service: RicoService = TestBed.get(RicoService);
-    expect(service).toBeTruthy();
-  });
-
   describe('Enterprise Controller ', () => {
+    let service: RicoService;
     let testControllerProxy;
+
     beforeAll((done) => {
       const setupPromise = new Promise(function (resolve, reject) {
-        const service: RicoService = TestBed.get(RicoService);
+        service = TestBed.get(RicoService);
+
         const appRef = TestBed.get(ApplicationRef) as ApplicationRef;
 
         service.connect('http://localhost:8085/integration-tests/remoting', appRef).then(
           () => {
-            service.createController('EnterpriseController').then((controllerProxy) => {
-              testControllerProxy = controllerProxy;
-              resolve();
-              done();
-            });
+            resolve();
+            done();
           }).catch((error) => {
             reject(error);
             done.fail(error);
@@ -34,6 +29,27 @@ describe('RicoService', () => {
       });
 
       return setupPromise;
+    });
+
+    beforeEach((done) => {
+      const setupPromise = new Promise(function (resolve, reject) {
+
+        service.createController('EnterpriseController').then((controllerProxy) => {
+          testControllerProxy = controllerProxy;
+          resolve();
+          done();
+        }).catch((error) => {
+          reject(error);
+          done.fail(error);
+        });
+
+      });
+
+      return setupPromise;
+    });
+
+    afterEach(() => {
+      testControllerProxy.destroy();
     });
 
     it('@PostConstruct is executed', (done) => {

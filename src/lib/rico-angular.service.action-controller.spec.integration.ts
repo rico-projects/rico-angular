@@ -10,11 +10,6 @@ import { ControllerProxy } from './controller-proxy';
 describe('RicoService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
-  it('should be created', () => {
-    const service: RicoService = TestBed.get(RicoService);
-    expect(service).toBeTruthy();
-  });
-
   describe('ActionController ', () => {
     let testModel;
     let testControllerProxy: ControllerProxy;

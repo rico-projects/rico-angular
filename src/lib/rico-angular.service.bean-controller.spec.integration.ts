@@ -10,11 +10,6 @@ import { ControllerProxy } from './controller-proxy';
 describe('RicoService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
-  it('should be created', () => {
-    const service: RicoService = TestBed.get(RicoService);
-    expect(service).toBeTruthy();
-  });
-
   describe('BeanController ', () => {
     let beansTestModel;
     let beansTestControllerProxy: ControllerProxy;
@@ -56,7 +51,13 @@ describe('RicoService', () => {
     });
 
     afterEach((done) => {
-      return beansTestControllerProxy.destroy().then(() => { done(); });
+      return beansTestControllerProxy.destroy()
+        .then(
+          () => { done(); })
+        .catch(
+          () => {
+            done(); // ignore error on destroy
+          });
     });
 
     it('all bean types can be injected in a controller', (done) => {

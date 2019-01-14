@@ -33,6 +33,11 @@ describe('RicoService', () => {
 
   });
 
+  it('should be created', () => {
+    const service: RicoService = TestBed.get(RicoService);
+    expect(service).toBeTruthy();
+  });
+
   describe('Property Controller ', () => {
     let testControllerProxy: ControllerProxy;
     let service: RicoService;
