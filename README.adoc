@@ -22,13 +22,13 @@ The following steps describes how you can use Rico in your Angular application.
 
 Add dependencies to `rico-js` and `rico-angular` to your project:
 
- npm install git+https://github.com/rico-project/rico-js.git#1.0.0-CR.4
+ npm install git+https://github.com/rico-project/rico-js.git#1.0.1
  npm install rico-angular
 
 So that these lines end up in your `package.json`:
 
     "rico-angular": "^1.0.2",
-    "rico-js": "git+https://github.com/rico-project/rico-js.git#1.0.0-CR.4",
+    "rico-js": "git+https://github.com/rico-project/rico-js.git#1.0.1",
 
 === Step 2: Inject library
 
