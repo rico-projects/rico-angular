@@ -1,12 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { ApplicationRef } from '@angular/core';
 import { RicoService } from './rico-angular.service';
-import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
 import { ControllerProxy } from './controller-proxy';
 
 
 /**
- * 
+ * Integration tests for the ActionController
  */
 describe('RicoService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
@@ -31,9 +30,10 @@ describe('RicoService', () => {
           () => {
             resolve();
             done();
+          }).catch((error) => {
+            reject(error);
+            done.fail(error);
           });
-      }).catch((error) => {
-        done.fail(error);
       });
 
       return setupPromise;
@@ -47,18 +47,18 @@ describe('RicoService', () => {
           testModel = controllerProxy.model;
           resolve();
           done();
+        }).catch((error) => {
+          reject(error);
+          done.fail(error);
         });
-      }).catch((error) => {
-        done.fail(error);
       });
 
       return setupPromise;
     });
 
-    afterEach((done) => {
-      return testControllerProxy.destroy().then(() => { done(); });
+    afterEach(() => {
+      return testControllerProxy.destroy();
     });
-
 
 
     it('public action method can be called', (done) => {
