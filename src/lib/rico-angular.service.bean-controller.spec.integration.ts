@@ -4,7 +4,6 @@ import { RicoService } from './rico-angular.service';
 import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
 import { ControllerProxy } from './controller-proxy';
 
-
 /**
  *
  */
@@ -30,9 +29,10 @@ describe('RicoService', () => {
         service.connect('http://localhost:8085/integration-tests/remoting', appRef).then(() => {
           resolve();
           done();
+        }).catch((error) => {
+          reject(error);
+          done.fail(error);
         });
-      }).catch((error) => {
-        done.fail(error);
       });
 
       return setupPromise;
@@ -46,9 +46,10 @@ describe('RicoService', () => {
           beansTestModel = controllerProxy.model;
           resolve();
           done();
+        }).catch((error) => {
+          reject(error);
+          done.fail(error);
         });
-      }).catch((error) => {
-        done.fail(error);
       });
 
       return setupPromise;

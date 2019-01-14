@@ -5,9 +5,6 @@ import { connectableObservableDescriptor } from 'rxjs/internal/observable/Connec
 import { ControllerProxy } from './controller-proxy';
 
 
-/**
- * 
- */
 describe('RicoService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
@@ -17,10 +14,9 @@ describe('RicoService', () => {
   });
 
   describe('Enterprise Controller ', () => {
-    let testModel;
     let testControllerProxy;
     beforeAll((done) => {
-      let setupPromise = new Promise(function (resolve, reject) {
+      const setupPromise = new Promise(function (resolve, reject) {
         const service: RicoService = TestBed.get(RicoService);
         const appRef = TestBed.get(ApplicationRef) as ApplicationRef;
 
@@ -28,11 +24,11 @@ describe('RicoService', () => {
           () => {
             service.createController('EnterpriseController').then((controllerProxy) => {
               testControllerProxy = controllerProxy;
-              testModel = controllerProxy.model;
               resolve();
               done();
             });
           }).catch((error) => {
+            reject(error);
             done.fail(error);
           });
       });

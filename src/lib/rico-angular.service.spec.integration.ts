@@ -6,7 +6,7 @@ import { ControllerProxy } from './controller-proxy';
 
 
 /**
- * 
+ * Integration Tests for rico-angular.
  */
 
 describe('RicoService', () => {
@@ -34,7 +34,6 @@ describe('RicoService', () => {
   });
 
   describe('Property Controller ', () => {
-    let testModel;
     let testControllerProxy: ControllerProxy;
     let service: RicoService;
 
@@ -48,9 +47,10 @@ describe('RicoService', () => {
           () => {
             resolve();
             done();
+          }).catch((error) => {
+            reject(error);
+            done.fail(error);
           });
-      }).catch((error) => {
-        done.fail(error);
       });
 
       return setupPromise;
@@ -61,10 +61,10 @@ describe('RicoService', () => {
 
         service.createController('PropertyController').then((controllerProxy) => {
           testControllerProxy = controllerProxy;
-          testModel = controllerProxy.model;
           resolve();
           done();
         }).catch((error) => {
+          reject(error);
           done.fail(error);
         });
 
