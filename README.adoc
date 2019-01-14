@@ -20,7 +20,7 @@ The following steps describes how you can use Rico in your Angular application.
 
 === Step 1: Add Dependencies
 
-Add dependencies to rico-js and rico-angular to your project:
+Add dependencies to `rico-js` and `rico-angular` to your project:
 
  npm install git+https://github.com/rico-project/rico-js.git#1.0.0-CR.4
  npm install rico-angular
