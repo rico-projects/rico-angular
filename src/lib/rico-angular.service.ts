@@ -31,7 +31,7 @@ export class RicoService {
 
   /**
    * provide rico.js base method 'getService'
-   * 
+   *
    * @param name Name of service, e.g. "Http", "ClientContextFactory"
    */
   getService(name: string) {

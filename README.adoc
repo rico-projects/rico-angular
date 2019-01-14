@@ -93,7 +93,7 @@ For a complete working example, please refer to https://github.com/rico-projects
 
 === Run library integration tests
 
-Prerequsite: Have Docker installed.
+Prerequsite: Have https://docs.docker.com/install/[Docker] installed.
 
 Then, have a integration tests server running using Docker:
 

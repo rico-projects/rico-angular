@@ -10,6 +10,6 @@ import { ControllerProxy } from './controller-proxy';
 
 export class RicoAngularModule {
   constructor(private service: RicoService) {
-    console.log('RicoAngularModule created', service.getClientContextFactory());
+
   }
 }

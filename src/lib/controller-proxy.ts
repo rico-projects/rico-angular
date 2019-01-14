@@ -9,7 +9,7 @@ export class ControllerProxy {
     private internalModel: any;
     private vanillaControllerProxy: any;
     private appRef: ApplicationRef;
-    private clientContext: any
+    private clientContext: any;
     private modelContainer: Map<any, Map<any, any>>;
 
     constructor(appRef: ApplicationRef, clientContext: any) {
@@ -28,13 +28,6 @@ export class ControllerProxy {
     public get model(): any {
         return this.internalModel;
     }
-    public set model(v: any) {
-        this.internalModel = v;
-    }
-
-    public get vanillaModel(): any {
-        return this.vanillaControllerProxy.model;
-    }
 
     invoke(name: string, params?: any): Promise<any> {
         return this.vanillaControllerProxy.invoke(name, params);
@@ -51,7 +44,6 @@ export class ControllerProxy {
                 proxy.internalModel = controllerProxy.model;
 
                 if (ControllerProxy.LOGGER.isLogLevel(LogLevel.DEBUG)) {
-                    // TODO: remove the quick hack to peek into the model :-)
                     // @ts-ignore
                     window._ricoModel = controllerProxy.model;
                     ControllerProxy.LOGGER.debug('Model ', JSON.stringify(controllerProxy.model));
@@ -59,8 +51,10 @@ export class ControllerProxy {
 
                 resolve(proxy);
 
-            }); //createController does not handle a reject case, so there is no point in implement a proper handling here 
-            // TODO: implment as it has been fixed in rico-js
+            })
+            .catch((error) => {
+              reject(error);
+            });
         });
     }
 
@@ -75,14 +69,14 @@ export class ControllerProxy {
         const onArrayUpdateHandlerResult = beanManager.onArrayUpdate(this.onArrayUpdateHandler);
         // TODO The results should be used to clean up at the end
 
-        ControllerProxy.LOGGER.info('Rico remoting model binding listeners for Angular registered');
+        ControllerProxy.LOGGER.debug('Rico remoting model binding listeners for Angular registered');
     }
 
     private onBeanAddedHandler(bean: any) {
         this.modelContainer.set(bean, new Map());
         ControllerProxy.LOGGER.debug('onBeanAddedHandler', bean);
 
-        for (const propertyName in bean) {
+        for (const propertyName of Object.keys(bean)) {
             this.watchProperty(bean, propertyName);
         }
     }
@@ -104,8 +98,6 @@ export class ControllerProxy {
         if (oldValue === newValue) {
             return;
         }
-
-        //
 
         if (newProperty) {
             this.watchProperty(bean, propertyName);
@@ -130,11 +122,11 @@ export class ControllerProxy {
         } else {
             this.injectArray(array, index, newElements);
 
-            for (bean in newElements) {
-                for (const currentPropertyName in bean) {
-                    this.watchProperty(bean, currentPropertyName);
+            newElements.forEach( (element) => {
+                for (const currentPropertyName of Object.keys(element)) {
+                    this.watchProperty(element, currentPropertyName);
                 }
-            }
+            });
         }
 
         this.appRef.tick();
@@ -148,7 +140,7 @@ export class ControllerProxy {
             Object.defineProperty(bean, propertyName, {
                 // Create a new getter for the property
                 get: function () {
-                    ControllerProxy.LOGGER.trace("Get for " + propertyName);
+                    ControllerProxy.LOGGER.trace('Get for ' + propertyName);
                     return valueMap.get(propertyName);
                 },
                 // Create a new setter for the property

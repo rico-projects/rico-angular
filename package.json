@@ -19,6 +19,7 @@
     "dist": "npm run build && npm run pack",
     "start-int-test-server": "docker run -d -p 8085:8080 --rm --name rico-angular-int-server ricoprojects/integration:tomee-1.0.0-CR2",
     "int-test": "npm-install-peers && ng test --main src/test.integration.ts --ts-config tsconfig.spec.integration.json",
+    "int-test-ci": "npm-install-peers && ng test --main src/test.integration.ts --ts-config tsconfig.spec.integration.json --code-coverage --watch false",
     "stop-int-test-server": "docker stop rico-angular-int-server",
     "semantic-release": "semantic-release"
   },
@@ -49,6 +50,7 @@
     "karma-coverage-istanbul-reporter": "~2.0.1",
     "karma-jasmine": "~1.1.2",
     "karma-jasmine-html-reporter": "^0.2.2",
+    "karma-junit-reporter": "^1.2.0",
     "ng-packagr": "^4.4.5",
     "npm-install-peers": "^1.2.1",
     "protractor": "~5.4.0",

@@ -6,8 +6,36 @@ notifications:
   email: true
 node_js:
   - '9'
-script:
-  - npm run dist
+services:
+  - docker  
+
+# Set DISPLAY for Xvfb
+env:
+  - DISPLAY=:99.0
+
+# Use APT Addon to install Chrome
+addons:
+  apt:
+    sources:
+      - google-chrome
+    packages:
+      - google-chrome-stable
+
+# Start Xvfb so you can run Chrome
+before_install:
+  - sh -e /etc/init.d/xvfb start
+
+jobs:
+  include:
+    - stage: build
+      script:
+       - npm run dist
+#    - stage: "integration test"
+#      script: 
+#        - npm run start-int-test-server
+#        - npm run int-test-ci
+#        - npm run stop-int-test-server
+
 after_success:
   - npm run semantic-release
 branches:
