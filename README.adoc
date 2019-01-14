@@ -1,5 +1,10 @@
 = Rico Angular Adapter
 
+image:https://travis-ci.org/rico-projects/rico-angular.svg?branch=master["Build Status", link="https://travis-ci.org/rico-projects/rico-angular"]
+
+image:https://nodei.co/npm/rico-angular.png["Rico-Angular on NPM", link="https://www.npmjs.com/package/rico-angular"]
+
+
 == Usage
 
 You need to have both https://github.com/rico-projects/rico-js[rico-js] and this library as dependency to be able to use this adapter.
@@ -9,11 +14,82 @@ This enables you, in case of a bugfix or extension of rico-js to benefit from it
 
 Please find an example in the https://github.com/rico-projects/rico-samples[rico-samples repository].
 
-== Handling
+== How-To
+
+Using Rico in your Angular application 
+
+=== Step 1: Add Dependencies
+
+Add dependencies to rico-js and rico-angular to your project:
+
+ npm install git+https://github.com/rico-project/rico-js.git#1.0.0-CR.4
+ npm install rico-angular
+
+So that these lines end up in your `package.json`:
+
+    "rico-angular": "^1.0.2",
+    "rico-js": "git+https://github.com/rico-project/rico-js.git#1.0.0-CR.4",
+
+=== Step 2: Inject library
+
+Extend the `app.module.ts` by adding the `RicoAngularModule` to the imports:
+
+----
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+
+import { AppComponent } from './app.component';
+
+import { RicoAngularModule } from 'rico-angular';
+
+@NgModule({
+  declarations: [
+    AppComponent
+  ],
+  imports: [
+    BrowserModule,
+    FormsModule,
+    RicoAngularModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+----
+
+=== Step 2: Add Code    
+
+Inject RicoService and the https://angular.io/api/core/ApplicationRef[ApplicationRef] into your Component you want to use Rico in:
+
+----
+constructor(ricoService: RicoService, appRef: ApplicationRef) {
+----
+
+
+Connect to Rico Server and create an instance of the controller to get access tothe model you can establish bindings to:
+
+----
+
+ this.ricoService.connect('http://localhost:8080/todo-app/remoting', this.appRef).then(() => {
+
+      this.ricoService.createController('ToDoController').then((controllerProxy) => {
+        AppComponent.LOGGER.info('received proxy after createController:', controllerProxy);
+        this.model = controllerProxy.model;
+        this.appRef.tick();
+        this.controllerProxy = controllerProxy;
+      }).catch((error) => {
+        AppComponent.LOGGER.error(error);
+      });
+
+----
+
+
+For a complete working example, please refer to https://github.com/rico-projects/rico-samples/tree/master/todo-list/client-angular[client-angular module] of our https://github.com/rico-projects/rico-samples[ToDo List sample].
 
 === Run library tests
 
- `npm run test`
+ npm run test
 
 === Run library integration tests
 
@@ -21,19 +97,19 @@ Prerequsite: Have Docker installed.
 
 Then, have a integration tests server running using Docker:
 
- `npm run start-int-test-server`
+ npm run start-int-test-server
 
 It will start a docker image with a rico runtime with some remoting controllers mapped to port 8085.
 
 Now *execute tests* with:
 
- `npm run int-test`
+ npm run int-test
 
 The tests will watch the source files and re-run upon changes.
 
 Finally, you can stop the integration server with
  
- `npm run stop-int-test-server`
+ npm run stop-int-test-server
 
 === Packaging 
 
