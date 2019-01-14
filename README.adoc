@@ -16,7 +16,7 @@ Please find an example in the https://github.com/rico-projects/rico-samples[rico
 
 == How-To
 
-Using Rico in your Angular application 
+The following steps describes how you can use Rico in your Angular application.
 
 === Step 1: Add Dependencies
 
