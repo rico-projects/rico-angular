@@ -30,11 +30,11 @@ jobs:
     - stage: build
       script:
        - npm run dist
-    - stage: "integration test"
-      script: 
-        - npm run start-int-test-server
-        - npm run int-test-ci
-        - npm run stop-int-test-server
+#    - stage: "integration test"
+#      script: 
+#        - npm run start-int-test-server
+#        - npm run int-test-ci
+#        - npm run stop-int-test-server
 
 after_success:
   - npm run semantic-release
