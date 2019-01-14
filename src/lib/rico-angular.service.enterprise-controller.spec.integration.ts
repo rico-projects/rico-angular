@@ -48,8 +48,14 @@ describe('RicoService', () => {
       return setupPromise;
     });
 
-    afterEach(() => {
-      testControllerProxy.destroy();
+    afterEach((done) => {
+      return testControllerProxy.destroy()
+        .then(
+          () => { done(); })
+        .catch(
+          () => {
+            done(); // ignore error on destroy
+          });
     });
 
     it('@PostConstruct is executed', (done) => {
