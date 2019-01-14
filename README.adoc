@@ -67,7 +67,7 @@ constructor(ricoService: RicoService, appRef: ApplicationRef) {
 ----
 
 
-Connect to Rico Server and create an instance of the controller to get access tothe model you can establish bindings to:
+Connect to a Rico server endpoint and create an instance of the controller to get access to the model for that you can establish bindings to:
 
 ----
 
