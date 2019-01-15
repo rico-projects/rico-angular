@@ -27,7 +27,7 @@ Add dependencies to `rico-js` and `rico-angular` to your project:
 
 So that these lines end up in your `package.json`:
 
-    "rico-angular": "^1.0.2",
+    "rico-angular": "^1.0.3",
     "rico-js": "git+https://github.com/rico-project/rico-js.git#1.0.1",
 
 === Step 2: Inject library
@@ -58,7 +58,7 @@ import { RicoAngularModule } from 'rico-angular';
 export class AppModule { }
 ----
 
-=== Step 2: Add Code    
+=== Step 2: Add Code to connect to the Controller   
 
 Inject RicoService and the https://angular.io/api/core/ApplicationRef[ApplicationRef] into your Component you want to use Rico in:
 
@@ -75,14 +75,23 @@ Connect to a Rico server endpoint and create an instance of the controller to ge
 
       this.ricoService.createController('ToDoController').then((controllerProxy) => {
         AppComponent.LOGGER.info('received proxy after createController:', controllerProxy);
-        this.model = controllerProxy.model;
         this.appRef.tick();
         this.controllerProxy = controllerProxy;
+        this.model = controllerProxy.model;
       }).catch((error) => {
         AppComponent.LOGGER.error(error);
       });
 
 ----
+
+=== Step 3: Add code for data binding
+
+As we now have the contoller's model in the component available, we can make use of https://angular.io/api/forms/NgModel[Angular's ngModel] to use that model with our UI.
+
+For example, we can bind a 'newItemText' property of the model to a input field like this (https://github.com/rico-projects/rico-samples/blob/master/todo-list/client-angular/src/app/app.component.html#L17[from rico-samples ToDo list]):
+
+  <input type="text" [(ngModel)]="model.newItemText" (keyup.enter)="addTask()" class="form-control" placeholder="Task">
+
 
 
 For a complete working example, please refer to https://github.com/rico-projects/rico-samples/tree/master/todo-list/client-angular[client-angular module] of our https://github.com/rico-projects/rico-samples[ToDo List sample].
