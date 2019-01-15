@@ -58,7 +58,7 @@ import { RicoAngularModule } from 'rico-angular';
 export class AppModule { }
 ----
 
-=== Step 2: Add Code to connect to Controller   
+=== Step 2: Add Code to connect to the Controller   
 
 Inject RicoService and the https://angular.io/api/core/ApplicationRef[ApplicationRef] into your Component you want to use Rico in:
 
