@@ -4,3 +4,4 @@
 
 export * from './lib/rico-angular.service';
 export * from './lib/rico-angular.module';
+export * from './lib/controller-proxy';
