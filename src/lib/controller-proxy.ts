@@ -4,6 +4,7 @@ import { RicoService } from './rico-angular.service';
 
 export class ControllerProxy {
 
+    static globalCount: number = 0;
     static LOGGER: any = LoggerFactory.getLogger('RicoAngularAdapter::ControllerProxy');
 
     private internalModel: any;
@@ -11,18 +12,18 @@ export class ControllerProxy {
     private appRef: ApplicationRef;
     private clientContext: any;
     private modelContainer: Map<any, Map<any, any>>;
+    count: any;
 
     constructor(appRef: ApplicationRef, clientContext: any) {
         this.clientContext = clientContext;
         this.appRef = appRef;
         this.modelContainer = new Map();
 
-        this.onBeanAddedHandler = this.onBeanAddedHandler.bind(this);
-        this.onBeanRemovedHandler = this.onBeanRemovedHandler.bind(this);
         this.onBeanUpdateHandler = this.onBeanUpdateHandler.bind(this);
         this.onArrayUpdateHandler = this.onArrayUpdateHandler.bind(this);
 
-        this.bindBeanManagerListenersForController(clientContext.beanManager);
+        ControllerProxy.globalCount = ControllerProxy.globalCount + 1
+        this.count = 'instance-count: ' + ControllerProxy.globalCount;
     }
 
     public get model(): any {
@@ -43,6 +44,10 @@ export class ControllerProxy {
                 proxy.vanillaControllerProxy = controllerProxy;
                 proxy.internalModel = controllerProxy.model;
 
+                proxy.init(proxy.internalModel);
+
+                proxy.bindBeanManagerListenersForController(proxy.clientContext.beanManager, proxy.internalModel);
+
                 if (ControllerProxy.LOGGER.isLogLevel(LogLevel.DEBUG)) {
                     // @ts-ignore
                     window._ricoModel = controllerProxy.model;
@@ -62,32 +67,53 @@ export class ControllerProxy {
         return this.vanillaControllerProxy.destroy();
     }
 
-    private bindBeanManagerListenersForController(beanManager: any) {
-        const onBeanAddedHandlerResult = beanManager.onAdded(this.onBeanAddedHandler);
-        const onBeanRemovedHandlerResult = beanManager.onRemoved(this.onBeanRemovedHandler);
-        const onBeanUpdateHandlerResult = beanManager.onBeanUpdate(this.onBeanUpdateHandler);
-        const onArrayUpdateHandlerResult = beanManager.onArrayUpdate(this.onArrayUpdateHandler);
+    isRemotingBean(bean) {
+        return this.clientContext.beanManager.isManaged(bean);
+    }
+
+    isUnregisteredRemotingBean(bean) {
+        return this.isRemotingBean(bean) && !this.modelContainer.has(bean);
+    }
+
+    init(bean) {
+        if(!this.exists(bean)) {
+            return;
+        }
+
+        if (this.isUnregisteredRemotingBean(bean)) {
+            this.modelContainer.set(bean, new Map());
+            let properties = Object.keys(bean);
+            properties.forEach(p => {
+                let value = bean[p];
+                if(Array.isArray(value)) {
+                    value.forEach(subValue => {
+                        if (subValue !== null && this.isRemotingBean(subValue)) {
+                            this.init(subValue);
+                        } else {
+                            this.watchProperty(bean, p);
+                        }
+                    });
+                } else {
+                    if (value !== null && this.isRemotingBean(value)) {
+                        this.init(value);
+                    } else {
+                        this.watchProperty(bean, p);
+                    }
+                }
+            });
+        }
+    }
+
+    private bindBeanManagerListenersForController(beanManager: any, model: any) {
+        const onBeanUpdateHandlerResult = beanManager.onBeanUpdate(this.onBeanUpdateHandler, model);
+        const onArrayUpdateHandlerResult = beanManager.onArrayUpdate(this.onArrayUpdateHandler, model);
         // TODO The results should be used to clean up at the end
 
         ControllerProxy.LOGGER.debug('Rico remoting model binding listeners for Angular registered');
     }
 
-    private onBeanAddedHandler(bean: any) {
-        this.modelContainer.set(bean, new Map());
-        ControllerProxy.LOGGER.debug('onBeanAddedHandler', bean);
-
-        for (const propertyName of Object.keys(bean)) {
-            this.watchProperty(bean, propertyName);
-        }
-    }
-
-    private onBeanRemovedHandler(bean: any) {
-        this.modelContainer.delete(bean);
-        ControllerProxy.LOGGER.debug('onBeanRemovedHandler', bean);
-    }
-
     private onBeanUpdateHandler(bean: any, propertyName: string, newValue: any, oldValue: any) {
-        ControllerProxy.LOGGER.debug('onBeanUpdateHandler', bean, propertyName, newValue, oldValue);
+        ControllerProxy.LOGGER.debug('onBeanUpdateHandler', this.count, bean, propertyName, newValue, oldValue);
         let newProperty = true;
         for (const currentPropertyName in bean) {
             if (currentPropertyName === propertyName) {
@@ -104,11 +130,16 @@ export class ControllerProxy {
         }
         bean[propertyName] = newValue;
 
+        if (this.isUnregisteredRemotingBean(newValue)) {
+            this.init(newValue)
+        }
+
         this.appRef.tick();
+        console.log('model', this.count, this.internalModel);
     }
 
     private onArrayUpdateHandler(bean: any, propertyName: string, index: number, count: number, newElements: Array<any>) {
-        ControllerProxy.LOGGER.debug('onArrayUpdateHandler', bean, propertyName, index, count, newElements);
+        ControllerProxy.LOGGER.debug('onArrayUpdateHandler', this.count, bean, propertyName, index, count, newElements);
 
         const array = bean[propertyName];
 
@@ -123,17 +154,19 @@ export class ControllerProxy {
             this.injectArray(array, index, newElements);
 
             newElements.forEach( (element) => {
-                for (const currentPropertyName of Object.keys(element)) {
-                    this.watchProperty(element, currentPropertyName);
+                if (this.isUnregisteredRemotingBean(element)) {
+                    this.init(element);
                 }
+                // this.watchProperty(bean, propertyName);
             });
         }
 
         this.appRef.tick();
+        console.log('model', this.count, this.internalModel);
     }
 
     private watchProperty(bean: any, propertyName: string) {
-        ControllerProxy.LOGGER.debug('Watching', JSON.stringify(bean), 'property', propertyName);
+        ControllerProxy.LOGGER.debug(this.count, 'Watching', JSON.stringify(bean), 'property', propertyName);
         const proxy = this;
         const valueMap = proxy.modelContainer.get(bean);
         (function () {
