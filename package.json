@@ -15,7 +15,7 @@
   "scripts": {
     "build": "npm-install-peers && ng build rico-angular",
     "build-watch": "npm-install-peers && ng build rico-angular --watch",
-    "test": "npm-install-peers && npx ng test",
+    "test": "npm-install-peers && npx ng test --watch false",
     "pack": "cd dist && npm pack",
     "dist": "npm run build && npm run pack",
     "start-int-test-server": "docker run -d -p 8085:8080 --rm --name rico-angular-int-server ricoprojects/integration:tomee-1.0.0-CR2",
