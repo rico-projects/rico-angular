@@ -67,13 +67,13 @@ export class RicoService {
   }
 
   private addToQueue(controllerProxy: ControllerProxy, resolve: Function, reject: Function) {
-    const promise = new Promise((resolve, reject) => {
-      this.queue.push(resolve);
+    const promise = new Promise((res) => {
+      this.queue.push(res);
     });
 
     promise.then(() => {
-      controllerProxy.create().then((controllerProxy) => {
-        resolve(controllerProxy);
+      controllerProxy.create().then((ctrlProxy) => {
+        resolve(ctrlProxy);
         this.resolveFromQueue();
       }).catch((error) => {
         reject(error);
