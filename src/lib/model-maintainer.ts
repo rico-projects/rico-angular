@@ -2,8 +2,8 @@ import { ApplicationRef, Injectable } from '@angular/core';
 import { LoggerFactory, LogLevel } from 'rico-js';
 
 export class ModelMaintainer {
-    static LOGGER: any = LoggerFactory.getLogger('RicoAngularAdapter::ControllerProxy');
-
+    
+    static LOGGER: any = LoggerFactory.getLogger('RicoAngularAdapter::ModelMaintainer');
 
     private appRef: ApplicationRef;
     private clientContext: any;
