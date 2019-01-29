@@ -15,7 +15,6 @@ export class RicoService {
 
   constructor() {
     RicoService.LOGGER.debug('RicoService created');
-    this.modelMaintainer = new ModelMaintainer();
   }
 
   connect(remotingEndpoint: string, appRef: ApplicationRef): Promise<any> {
@@ -25,7 +24,7 @@ export class RicoService {
 
     if (!this.clientContext) {
       this.clientContext = this.contextFactory.create(remotingEndpoint);
-      this.modelMaintainer.init(appRef, this.clientContext);
+      this.modelMaintainer = new ModelMaintainer(appRef, this.clientContext);
     }
 
     return this.clientContext.connect();

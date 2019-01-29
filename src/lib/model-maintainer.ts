@@ -2,14 +2,14 @@ import { ApplicationRef, Injectable } from '@angular/core';
 import { LoggerFactory, LogLevel } from 'rico-js';
 
 export class ModelMaintainer {
-    
+
     static LOGGER: any = LoggerFactory.getLogger('RicoAngularAdapter::ModelMaintainer');
 
     private appRef: ApplicationRef;
     private clientContext: any;
     private modelContainer: Map<any, Map<any, any>>;
 
-    init(appRef: ApplicationRef, clientContext: any) {
+    constructor(appRef: ApplicationRef, clientContext: any) {
         this.clientContext = clientContext;
         this.appRef = appRef;
         this.modelContainer = new Map();
