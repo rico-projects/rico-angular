@@ -13,9 +13,9 @@ export class RicoService {
   private clientContext: any;
   private modelMaintainer: ModelMaintainer;
 
-  constructor(modelMaintainer: ModelMaintainer) {
+  constructor() {
     RicoService.LOGGER.debug('RicoService created');
-    this.modelMaintainer = modelMaintainer;
+    this.modelMaintainer = new ModelMaintainer();
   }
 
   connect(remotingEndpoint: string, appRef: ApplicationRef): Promise<any> {
