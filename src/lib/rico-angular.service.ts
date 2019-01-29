@@ -12,10 +12,14 @@ export class RicoService {
   private contextFactory: any;
   private clientContext: any;
   private modelMaintainer: ModelMaintainer;
+  private queue: Array<Function>;
+  private triggerResolveQueue: boolean;
 
   constructor() {
     RicoService.LOGGER.debug('RicoService created');
     this.modelMaintainer = new ModelMaintainer();
+    this.queue = [];
+    this.triggerResolveQueue = true;
   }
 
   connect(remotingEndpoint: string, appRef: ApplicationRef): Promise<any> {
@@ -54,10 +58,41 @@ export class RicoService {
 
   createController(name: string): Promise<ControllerProxy> {
     if (this.clientContext && this.clientContext.isConnected) {
-      const controllerProxy = new ControllerProxy(this.clientContext);
-      return controllerProxy.create(name);
+      return new Promise<ControllerProxy>((resolve, reject) => {
+        const controllerProxy = new ControllerProxy(name, this.clientContext);
+        this.addToQueue(controllerProxy, resolve, reject);
+      });
     } else {
       return Promise.reject('Cannot create controller. ClientContext not conntected');
+    }
+  }
+
+  private addToQueue(controllerProxy: ControllerProxy, resolve: Function, reject: Function) {
+    const promise = new Promise((resolve, reject) => {
+      this.queue.push(resolve);
+    });
+
+    promise.then(() => {
+      controllerProxy.create().then((controllerProxy) => {
+        resolve(controllerProxy);
+        this.resolveFromQueue();
+      }).catch((error) => {
+        reject(error);
+      });
+    });
+
+    if (this.triggerResolveQueue) {
+      this.resolveFromQueue();
+      this.triggerResolveQueue = false;
+    }
+  }
+
+  private resolveFromQueue() {
+    if (this.queue.length > 0) {
+      const resolve = this.queue.shift();
+      resolve();
+    } else {
+      this.triggerResolveQueue = true;
     }
   }
 }
