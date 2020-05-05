@@ -12,10 +12,6 @@ node_js:
 services:
   - docker  
 
-# Set DISPLAY for Xvfb
-env:
-  - DISPLAY=:99.0
-
 # Use APT Addon to install Chrome
 addons:
   chrome: stable
