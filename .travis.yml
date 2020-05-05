@@ -1,3 +1,6 @@
+dist: xenial
+services:
+  - xvfb
 language: node_js
 cache:
   directories:
@@ -17,16 +20,11 @@ env:
 addons:
   chrome: stable
 
-# Start Xvfb so you can run Chrome
-before_script:
-  - "sh -e /etc/init.d/xvfb start"
-  - sleep 3 #give xvfb time to start
-
 jobs:
   include:
     - stage: test
       script:
-       - npm run test
+       -  xvfb-run npm run test
     - stage: build
       script:
        - npm run dist
