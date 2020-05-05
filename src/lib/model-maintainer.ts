@@ -1,5 +1,5 @@
 import { ApplicationRef, Injectable } from '@angular/core';
-import { LoggerFactory, LogLevel } from 'rico-js';
+import { LoggerFactory, LogLevel } from '@rico-projects/rico-js';
 
 export class ModelMaintainer {
 

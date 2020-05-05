@@ -1,3 +1,6 @@
+dist: xenial
+services:
+  - xvfb
 language: node_js
 cache:
   directories:
@@ -5,31 +8,19 @@ cache:
 notifications:
   email: true
 node_js:
-  - '9'
+  - '10'
 services:
   - docker  
 
-# Set DISPLAY for Xvfb
-env:
-  - DISPLAY=:99.0
-
 # Use APT Addon to install Chrome
 addons:
-  apt:
-    sources:
-      - google-chrome
-    packages:
-      - google-chrome-stable
-
-# Start Xvfb so you can run Chrome
-before_install:
-  - sh -e /etc/init.d/xvfb start
+  chrome: stable
 
 jobs:
   include:
     - stage: test
       script:
-       - npm run test
+       -  xvfb-run --server-args="-screen 0 1024x768x24" npm run test
     - stage: build
       script:
        - npm run dist
