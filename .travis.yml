@@ -20,7 +20,7 @@ jobs:
   include:
     - stage: test
       script:
-       -  xvfb-run npm run test
+       -  xvfb-run --server-args="-screen 0 1024x768x24" npm run test
     - stage: build
       script:
        - npm run dist
