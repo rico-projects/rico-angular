@@ -18,8 +18,9 @@ addons:
   chrome: stable
 
 # Start Xvfb so you can run Chrome
-before_install:
-  - sh -e /etc/init.d/xvfb start
+before_script:
+  - "sh -e /etc/init.d/xvfb start"
+  - sleep 3 #give xvfb time to start
 
 jobs:
   include:
