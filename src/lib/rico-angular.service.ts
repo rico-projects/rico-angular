@@ -1,5 +1,5 @@
 import { Injectable, ApplicationRef } from '@angular/core';
-import { getService, LoggerFactory } from 'rico-js';
+import { getService, LoggerFactory } from '@rico-projects/rico-js';
 import { ControllerProxy } from './controller-proxy';
 import { ModelMaintainer } from './model-maintainer';
 

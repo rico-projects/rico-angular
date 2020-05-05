@@ -25,7 +25,7 @@
     "semantic-release": "semantic-release"
   },
   "peerDependencies": {
-    "rico-js": "git+https://github.com/rico-project/rico-js.git#1.0.1",
+    "@rico-projects/rico-js": "1.1.0",
     "@angular/common": "~7.1.0",
     "@angular/compiler": "~7.1.0",
     "@angular/core": "~7.1.0",
@@ -74,6 +74,6 @@
     }
   },
   "release": {
-     "pkgRoot": "dist/"
+    "pkgRoot": "dist/"
   }
 }
