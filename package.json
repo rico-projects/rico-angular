@@ -54,7 +54,7 @@
     "karma-junit-reporter": "^1.2.0",
     "ng-packagr": "^10.1.1",
     "npm-install-peers": "^1.2.1",
-    "protractor": "~5.4.0",
+    "protractor": "~5.4.4",
     "semantic-release": "^17.2.3",
     "ts-node": "~7.0.0",
     "tsickle": ">=0.29.0",
